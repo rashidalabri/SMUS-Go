@@ -1,0 +1,44 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{% static 'css/mint-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/projectspirit.css' %}">
+
+
+    <title>Project Spirit</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <br>
+                <nav class="navbar navbar-dark bg-primary">
+                    <a class="navbar-brand" href="{% url 'spiritdashboard:dashboard' %}">Project Spirit</a>
+                    <span class="navbar-text">
+                        Signed in as {{ user.username }}.
+                    </span>
+                </nav>
+                <br>
+                {% block content %}
+                {% endblock %}
+                <br>
+                <footer class="text-center">
+                <p><small>Made with 💖 by Rashid | <a href="">Contribute</a> | <a href="">Privacy Policy</a> | <a href="{% url 'spiritdashboard:logout' %}">Logout</a></small></p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

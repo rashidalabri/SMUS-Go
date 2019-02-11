@@ -1,0 +1,31 @@
+{% extends 'spiritdashboard/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <img src="{% static 'img/completed.svg'%}" class="img-responsive">
+                <br><br>
+                <h4>Mission Completed!</h4>
+            </div>
+        </div>
+        <br>
+        <div class="row align-items-center">
+            <div class="col-3 text-center">
+                <img src="{% static 'img/npc_bailey.png'%}" class="img-responsive" width="100%">
+
+            </div>
+            <div class="col-9">
+                <p>Warrior,<br>You have completed the mission "{{ mission.title }}". As promised, I have added <b>{{ mission.value }} gems</b> to
+                    your vault.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

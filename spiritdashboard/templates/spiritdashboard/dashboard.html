@@ -1,0 +1,136 @@
+{% extends 'spiritdashboard/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Your Profile
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-5 text-center right-divider">
+                <img class="img-responsive" src="{{ user.avatar.url }}">
+            </div>
+            <div class="col-7">
+
+                <p><b>{{ user.first_name }} {{ user.last_name }}</b><br>
+                    <small>@{{ user.username }} &#183; Level {{ user.level }} Warrior</small></p>
+
+                <!-- Health -->
+                <div class="row align-items-center text-center">
+                    <div class="col-2">
+                        <img height="25px" src="{% static 'img/health.svg' %}">
+                    </div>
+                    <div class="col-10">
+                        <div class="progress" style="height:25px">
+                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar"
+                                style="width: {{ user.health_percent }}%" aria-valuenow="{{ user.health_percent }}" aria-valuemin="0" aria-valuemax="100"><b>{{ user.health_percent }}%</b></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="row align-items-center text-center">
+                    <div class="col-2">
+                        <img height="25px" src="{% static 'img/star.svg' %}">
+                    </div>
+                    <div class="col-10">
+                        <div class="progress" style="height:25px">
+                            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar"
+                                style="width: {{ user.xp_percent }}%" aria-valuenow="{{ user.xp_percent }}" aria-valuemin="0" aria-valuemax="100"><b>{{ user.xp_percent }}%</b></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                Your Stats
+            </div>
+            <div class="col">
+                <a href="{% url 'spiritdashboard:user_leaderboard' %}" class="btn btn-primary btn-sm float-right">View
+                    Leaderboard</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center right-divider">
+                <h6>Gems</h6>
+                <h3><img src="{% static 'img/gem.svg' %}" class="img-responsive" width="25px"> {{ user.points }}</h3>
+            </div>
+            <div class="col text-center">
+                <h6>Rank</h6>
+                <h3><img src="{% static 'img/leaderboard.svg' %}" class="img-responsive" width="25px"> #{{ user.rank }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                {{ grade.name }} Stats
+            </div>
+            <div class="col">
+                <a href="{% url 'spiritdashboard:grade_leaderboard' %}" class="btn btn-primary btn-sm float-right">View
+                    Leaderboard</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center right-divider">
+                <h6>Gems</h6>
+                <h3><img src="{% static 'img/gem.svg' %}" class="img-responsive" width="25px"> {{ grade.points }}</h3>
+            </div>
+            <div class="col text-center">
+                <h6>Rank</h6>
+                <h3><img src="{% static 'img/leaderboard.svg' %}" class="img-responsive" width="25px"> #{{ grade.rank }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<h6>Missions</h6>
+<div class="card">
+    <div class="card-body">
+        {% for mission in missions %}
+        <div class="row align-items-center">
+
+                <div class="col-1 text-center">
+                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="img-responsive">
+                    </div>
+
+            <div class="col-8">
+
+                <h6>{{ mission.title }}</h6>
+                <p>{{ mission.description }}</p>
+                <span class="badge badge-primary">{{ mission.location }}</span>
+
+            </div>
+            <div class="col-3 text-center">
+                <h6>Gems</h6>
+                <h2>{{ mission.value }}</h2>
+            </div>
+        </div>
+        {% if not forloop.counter == missions|length %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

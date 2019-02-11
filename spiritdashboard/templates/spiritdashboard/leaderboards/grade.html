@@ -1,0 +1,29 @@
+{% extends 'spiritdashboard/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Grade Leaderboard
+    </div>
+    <div class="card-body">
+        {% for grade in object_list %}
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <h6>{{ grade.name }}</h6>
+            </div>
+            <div class="col text-center right-divider">
+                <h6>Gems</h6>
+                <h3><img src="{% static 'img/gem.svg' %}" class="img-responsive" width="25px"> {{ grade.points }}</h3>
+            </div>
+            <div class="col text-center">
+                <h6>Rank</h6>
+                <h3><img src="{% static 'img/leaderboard.svg' %}" class="img-responsive" width="25px"> #{{ grade.rank }}</h3>
+            </div>
+        </div>
+        {% if not forloop.counter == object_list|length %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
