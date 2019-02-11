@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
 
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/projectspirit.css' %}">
 
 
-    <title>Project Spirit</title>
+    <title>SMUS Go</title>
 </head>
 
 <body>
@@ -19,19 +20,23 @@
             <div class="col-lg-5">
                 <br>
                 <nav class="navbar navbar-dark bg-primary">
-                    <a class="navbar-brand" href="{% url 'spiritdashboard:dashboard' %}">Project Spirit</a>
+                    <a class="navbar-brand" href="{% url 'spiritdashboard:dashboard' %}">🏆 <b>SMUS Go</b></a>
                     <span class="navbar-text">
+                    {% if user.is_authenticated %}
                         Signed in as {{ user.username }}.
+                    {% else %}
+                        A game, but even better.
+                    {% endif %}
                     </span>
                 </nav>
                 <br>
                 {% block content %}
                 {% endblock %}
-                <br>
+                <hr>
                 <footer class="text-center">
-                <p><small>Made with 💖 by Rashid | <a href="">Contribute</a> | <a href="">Privacy Policy</a> | <a href="{% url 'spiritdashboard:logout' %}">Logout</a></small></p>
+                <p><small>Made with 💖 by Rashid & Garry | <a href="https://github.com/rashidx/smus-go">Contribute</a> | <a href="{% url 'spiritdashboard:privacy_policy' %}">Privacy Policy</a> | <a href="{% url 'spiritdashboard:logout' %}">Logout</a></small></p>
                 </footer>
-
+                <hr>
             </div>
         </div>
     </div>

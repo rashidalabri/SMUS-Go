@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'spiritdashboard'
+    'spiritdashboard',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -126,5 +127,8 @@ LOGIN_URL = 'spiritdashboard:login'
 LOGIN_REDIRECT_URL = 'spiritdashboard:index'
 LOGOUT_REDIRECT_URL = 'spiritdashboard:login'
 AUTH_USER_MODEL = 'spiritdashboard.User'
+
+# Crispy-Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 django_heroku.settings(locals())

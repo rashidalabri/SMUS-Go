@@ -165,17 +165,17 @@ class ProgressionTests(TestCase):
 
     def test_xp_for_level(self):
         self.assertEqual(User.xp_for_level(1), 0)
-        self.assertEqual(User.xp_for_level(2), 10)
-        self.assertEqual(User.xp_for_level(3), 11)
-        self.assertEqual(User.xp_for_level(4), 12)
-        self.assertEqual(User.xp_for_level(5), 13)
+        self.assertEqual(User.xp_for_level(2), 5)
+        self.assertEqual(User.xp_for_level(3), 10)
+        self.assertEqual(User.xp_for_level(4), 15)
+        self.assertEqual(User.xp_for_level(5), 20)
 
     def test_total_xp_for_level(self):
         self.assertEqual(User.total_xp_for_level(1), 0)
-        self.assertEqual(User.total_xp_for_level(2), 10)
-        self.assertEqual(User.total_xp_for_level(3), 21)
-        self.assertEqual(User.total_xp_for_level(4), 33)
-        self.assertEqual(User.total_xp_for_level(5), 46)
+        self.assertEqual(User.total_xp_for_level(2), 5)
+        self.assertEqual(User.total_xp_for_level(3), 15)
+        self.assertEqual(User.total_xp_for_level(4), 30)
+        self.assertEqual(User.total_xp_for_level(5), 50)
 
     def test_level_when_xp_is_zero(self):
         self.user.total_xp = 0
@@ -183,21 +183,10 @@ class ProgressionTests(TestCase):
         self.assertEqual(self.user.level(), 1)
 
     def test_level_when_xp_is_more_than_zero_and_equal_to_total_xp_needed(self):
-        self.user.total_xp = 10
-        self.user.save()
-        self.assertEqual(self.user.level(), 2)
-
-        self.user.total_xp = 21
-        self.user.save()
-        self.assertEqual(self.user.level(), 3)
-
-        self.user.total_xp = 33
-        self.user.save()
-        self.assertEqual(self.user.level(), 4)
-
-        self.user.total_xp = 46
-        self.user.save()
-        self.assertEqual(self.user.level(), 5)
+        for i in range(2, 10):
+            self.user.total_xp = User.total_xp_for_level(i)
+            self.user.save()
+            self.assertEqual(self.user.level(), i)
 
 
     def test_level_when_xp_is_more_than_zero_and_not_equal_to_total_xp_needed(self):

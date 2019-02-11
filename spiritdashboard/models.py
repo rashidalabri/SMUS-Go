@@ -53,29 +53,21 @@ class User(AbstractUser):
         return math.floor((self.health / self.health_max) * 100)
 
     def level(self):
-        return 0
+        return 1
 
     def xp_toward_next_level(self):
-        if self.total_xp == 0:
-            return 0
-        #return self.total_xp - User.total_xp_for_level(self.level)
         return 1
 
     def xp_percent(self):
         return 1
-        return math.floor((self.total_xp - User.total_xp_for_level(self.level() - 1)) / (User.total_xp_for_level(self.level()) - User.total_xp_for_level(self.level() - 1)) * 100)
 
     @staticmethod
     def xp_for_level(level):
-        if level == 1:
-            return 0
-        return 10 + (level-2)
+        return (level - 1) * 5
 
     @staticmethod
     def total_xp_for_level(level):
-        if level == 1:
-            return User.xp_for_level(level)
-        return User.xp_for_level(level) + User.total_xp_for_level(level-1)
+        return level/2 * ((level - 1) * 5)
 
 
 class Mission(models.Model):

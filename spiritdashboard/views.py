@@ -9,6 +9,8 @@ from django.views.generic import ListView
 import pagan
 from .forms import SignUpForm
 
+from django.core.files.storage import default_storage
+
 from projectspirit.settings import MEDIA_DIR, MEDIA_URL
 
 
@@ -42,6 +44,9 @@ def register(request):
 
 @login_required
 def dashboard(request):
+    if not default_storage.exists(request.user.username + '.png'):
+        avatar = pagan.Avatar(request.user.username, pagan.SHA512)
+        avatar.save(MEDIA_DIR, request.user.username)
     context = {
         'missions': Mission.objects.all(),
         'grade': request.user.grade,
@@ -93,3 +98,6 @@ class GradeLeaderboard(ListView):
     model = Grade
     template_name = 'spiritdashboard/leaderboards/grade.html'
     queryset = Grade.objects.order_by('-points')[:10]
+
+def privacy_policy(request):
+    return render(request, 'spiritdashboard/privacy_policy.html')
