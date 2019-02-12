@@ -131,3 +131,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())
+
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
