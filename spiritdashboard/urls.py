@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 app_name = 'spiritdashboard'
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('', views.dashboard, name='index'),
     path('register/', views.register, name='register'),
     path('login/', LoginView.as_view(template_name='spiritdashboard/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
