@@ -17,7 +17,7 @@ MEDIA_URL = '/media/'
 SECRET_KEY = '$f5m&%2vtb1$&s#g+n5nf6*-v!zd88!+k)b@s0zj3ekr+#qkz8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -119,9 +119,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-def reverse(hey):
-    return hey
-
 # Authentication
 LOGIN_URL = 'spiritdashboard:login'
 LOGIN_REDIRECT_URL = 'spiritdashboard:index'
@@ -130,5 +127,7 @@ AUTH_USER_MODEL = 'spiritdashboard.User'
 
 # Crispy-Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())
