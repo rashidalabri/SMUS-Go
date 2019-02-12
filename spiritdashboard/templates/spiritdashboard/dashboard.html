@@ -11,7 +11,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-5 text-center right-divider">
-                <img class="img-responsive" src="{{ user.avatar.url }}">
+                <img class="img-fluid" src="{{ user.avatar.url }}">
             </div>
             <div class="col-7">
 
@@ -51,6 +51,28 @@
         </div>
     </div>
 </div>
+<br>
+<div class="card">
+    <div class="card-header">
+        Claim A Key
+    </div>
+    <div class="card-body">
+        <form method="post" action="{% url 'spiritdashboard:claim_key_post' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <input name="key" class="form-control" placeholder="Enter your key">
+                </div>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary btn-block">Claim</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
 <br>
 <div class="card">
     <div class="card-header">

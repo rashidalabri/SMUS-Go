@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='spiritdashboard/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('claim/<str:key>/', views.claim_key, name='claim_key'),
+    path('claim/', views.claim_key, name='claim_key_post'),
     path('user_leaderboard/', views.UserLeaderboard.as_view(), name='user_leaderboard'),
     path('grade_leaderboard/', views.GradeLeaderboard.as_view(), name='grade_leaderboard'),
     path('completed/', views.completed, name='completed'),

@@ -53,16 +53,23 @@ class User(AbstractUser):
         return math.floor((self.health / self.health_max) * 100)
 
     def level(self):
-        return 1
+        prev_level = 1  
+        while self.total_xp > User.total_xp_for_level(prev_level):
+            prev_level += 1
+        if self.total_xp != User.total_xp_for_level(prev_level):
+            prev_level -= 1
+        return prev_level
 
     def xp_toward_next_level(self):
-        return 1
+        return self.total_xp - User.total_xp_for_level(self.level())
 
     def xp_percent(self):
-        return 1
+        return math.floor(self.xp_toward_next_level() / User.total_xp_for_level(self.level()+1) * 100)
 
     @staticmethod
     def xp_for_level(level):
+        if level <= 1:
+            return 0
         return (level - 1) * 5
 
     @staticmethod
@@ -75,6 +82,7 @@ class Mission(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=50)
     value = models.IntegerField(default=0)
+    xp_points = models.IntegerField(default=5)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
 
@@ -97,3 +105,8 @@ class MissionKey(models.Model):
     mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
     key = models.CharField(max_length=10, unique=True,
                            default=generate_random_key)
+    one_use = models.BooleanField(default=False)
+    times_used = models.IntegerField(default=0)
+
+    def __str___(self):
+        return self.mission.title

@@ -2,6 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="jumbotron">
+  <h4>✨ New here?</h4>
+  <p>SMUS Go is a game where you and your friends can compete to earn points, and your grade can collectively add points to SMUS Got Talent points for amazing prizes!</p>
+  <a class="btn btn-primary" href="{% url 'spiritdashboard:register'%}" role="button">Create an Account</a>
+</div>
+
     <h4>Login</h4>
     {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>

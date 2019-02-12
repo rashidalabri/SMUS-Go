@@ -55,14 +55,21 @@ def dashboard(request):
 
 
 @login_required
-def claim_key(request, key):
+def claim_key(request, key=None):
+
+    if key is None and request.method == 'POST' and 'key' in request.POST.keys():
+        key = request.POST['key']
 
     # Validates key string
-    if len(key) == 10 and MissionKey.objects.filter(key=key):
-        mission = MissionKey.objects.filter(key=key)[0].mission
+    if len(key) == 10 and len(MissionKey.objects.filter(key=key)) > 0:
+        mission_key = MissionKey.objects.filter(key=key)[0]
+        mission = mission_key.mission
 
         # Checks if mission is not expired or in the future, and that it has not been completed before
         if not mission.is_future() and not mission.is_expired() and not CompletedMission.objects.filter(mission=mission, user=request.user):
+
+            if mission_key.one_use and mission_key.times_used > 0:
+                return HttpResponseBadRequest(reason='Key provided has already been used.')
 
             # Creates CompletedMission object and saves it to database
             completed_mission = CompletedMission(
@@ -71,6 +78,9 @@ def claim_key(request, key):
 
             # Adds points for the user
             request.user.points += mission.value
+
+            # Adds XP points for the user
+            request.user.total_xp += mission.xp_points
 
             # Adds points for the user's grade (if it exists)
             if request.user.grade is not None:

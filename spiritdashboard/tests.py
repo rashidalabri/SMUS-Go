@@ -70,7 +70,35 @@ class MissionKeyClaimTests(TestCase):
 
         self.assertEqual(len(CompletedMission.objects.filter(
             mission=mission, user=self.user)), 0)
-        return
+
+    def test_claim_one_use_mission_key(self):
+        mission = Mission.objects.create(title='test_claim_expired_mission_key', value=50, start_time=timezone.now(
+        ) - timedelta(days=2), end_time=timezone.now() - timedelta(days=1))
+        mission_key = MissionKey.objects.create(mission=mission, one_use=True)
+
+        url = reverse('spiritdashboard:claim_key', args=[mission_key.key])
+
+        self.client.login(username=self.USERNAME, password=self.PASSWORD)
+        self.client.get(url, follow=True)
+        self.client.logout()
+
+        self.assertEqual(len(CompletedMission.objects.filter(
+            mission=mission, user=self.user)), 0)
+        
+    def test_claim_one_use_mission_key_twice(self):
+        mission = Mission.objects.create(title='test_claim_expired_mission_key', value=50, start_time=timezone.now(
+        ) - timedelta(days=2), end_time=timezone.now() - timedelta(days=1))
+        mission_key = MissionKey.objects.create(mission=mission, one_use=True)
+
+        url = reverse('spiritdashboard:claim_key', args=[mission_key.key])
+
+        self.client.login(username=self.USERNAME, password=self.PASSWORD)
+        self.client.get(url, follow=True)
+        self.client.get(url, follow=True)
+        self.client.logout()
+
+        self.assertEqual(len(CompletedMission.objects.filter(
+            mission=mission, user=self.user)), 0)
 
     def test_claim_mission_key_twice(self):
         mission = Mission.objects.create(
@@ -190,18 +218,7 @@ class ProgressionTests(TestCase):
 
 
     def test_level_when_xp_is_more_than_zero_and_not_equal_to_total_xp_needed(self):
-        self.user.total_xp = 10 + 2
-        self.user.save()
-        self.assertEqual(self.user.level(), 2)
-
-        self.user.total_xp = 21 + 2
-        self.user.save()
-        self.assertEqual(self.user.level(), 3)
-
-        self.user.total_xp = 33 + 2
-        self.user.save()
-        self.assertEqual(self.user.level(), 4)
-
-        self.user.total_xp = 46 + 2
-        self.user.save()
-        self.assertEqual(self.user.level(), 5)
+        for i in range(2, 10):
+            self.user.total_xp = User.total_xp_for_level(i) - 1
+            self.user.save()
+            self.assertEqual(self.user.level(), i-1)
