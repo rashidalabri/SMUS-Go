@@ -14,5 +14,3 @@ admin.site.register(Mission)
 admin.site.register(MissionKey)
 admin.site.register(Grade)
 admin.site.register(CompletedMission)
-
-

@@ -9,12 +9,11 @@
         Your Profile
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-5 text-center right-divider">
-                {% comment %} <img class="img-fluid" src="{{ user.avatar.url }}"> {% endcomment %}
+        <div class="row align-items-center">
+            <div class="col-4 text-center right-divider">
                 <img class="img-fluid" src="data:image/png;charset=utf-8;base64,{{ avatar_base64 }}">
             </div>
-            <div class="col-7">
+            <div class="col">
 
                 <p><b>{{ user.first_name }} {{ user.last_name }}</b><br>
                     <small>@{{ user.username }} &#183; Level {{ user.level }} Warrior</small></p>
@@ -135,10 +134,10 @@
         <div class="row align-items-center">
 
                 <div class="col-1 text-center">
-                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="img-responsive">
+                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="">
                     </div>
 
-            <div class="col-8">
+            <div class="col">
 
                 <h6>{{ mission.title }}</h6>
                 <p>{{ mission.description }}</p>
@@ -165,10 +164,10 @@
         <div class="row align-items-center">
 
                 <div class="col-1 text-center">
-                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="img-responsive">
-                    </div>
+                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="">
+                </div>
 
-            <div class="col-8">
+            <div class="col">
 
                 <h6><s>{{ mission.title }}</s></h6>
                 <p>{{ mission.description }}</p>
@@ -176,7 +175,7 @@
 
             </div>
             <div class="col-3 text-center">
-                <h6>Gems</h6>
+                <p>Gems</p>
                 <h2>{{ mission.value }}</h2>
             </div>
         </div>
