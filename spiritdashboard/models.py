@@ -4,7 +4,7 @@ import datetime
 
 import math
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
 import pagan
@@ -33,11 +33,15 @@ class Grade(models.Model):
     def __str__(self):
         return self.name
 
+class CaseInsensitiveUserManager(UserManager):
+    def get_by_natural_key(self, username):
+        case_insensitive_username_field = '{}__iexact'.format(self.model.USERNAME_FIELD)
+        return self.get(**{case_insensitive_username_field: username})
 
 class User(AbstractUser):
+    objects = CaseInsensitiveUserManager()
     points = models.IntegerField(default=0)
     grade = models.ForeignKey(Grade, on_delete=models.SET_NULL, null=True)
-    avatar = models.ImageField(upload_to='images')
 
     health = models.IntegerField(default=100)
     health_max = models.IntegerField(default=100)
@@ -91,6 +95,9 @@ class Mission(models.Model):
 
     def is_expired(self):
         return self.end_time < timezone.now()
+
+    def is_completed_by_user(self, user):
+        return CompletedMission.objects.filter(mission=self, user=user) > 0
 
     def __str__(self):
         return self.title

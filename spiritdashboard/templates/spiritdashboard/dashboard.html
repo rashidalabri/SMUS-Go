@@ -11,7 +11,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-5 text-center right-divider">
-                <img class="img-fluid" src="{{ user.avatar.url }}">
+                {% comment %} <img class="img-fluid" src="{{ user.avatar.url }}"> {% endcomment %}
+                <img class="img-fluid" src="data:image/png;charset=utf-8;base64,{{ avatar_base64 }}">
             </div>
             <div class="col-7">
 
@@ -150,6 +151,36 @@
             </div>
         </div>
         {% if not forloop.counter == missions|length %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<hr>
+<h6>Completed Missions</h6>
+<div class="card">
+    <div class="card-body">
+        {% for mission in completed_missions %}
+        <div class="row align-items-center">
+
+                <div class="col-1 text-center">
+                        <img src="{% static 'img/sparkles.svg' %}" alt="" class="img-responsive">
+                    </div>
+
+            <div class="col-8">
+
+                <h6><s>{{ mission.title }}</s></h6>
+                <p>{{ mission.description }}</p>
+                <span class="badge badge-primary">{{ mission.location }}</span>
+
+            </div>
+            <div class="col-3 text-center">
+                <h6>Gems</h6>
+                <h2>{{ mission.value }}</h2>
+            </div>
+        </div>
+        {% if not forloop.counter == completed_missions|length %}
         <hr>
         {% endif %}
         {% endfor %}

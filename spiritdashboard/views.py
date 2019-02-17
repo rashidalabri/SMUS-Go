@@ -13,6 +13,11 @@ from django.core.files.storage import default_storage
 
 from projectspirit.settings import MEDIA_DIR, MEDIA_URL
 
+import base64
+from io import BytesIO
+
+import datetime
+
 
 def index(request):
     return HttpResponse('Hi')
@@ -27,10 +32,6 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
 
-            avatar = pagan.Avatar(username, pagan.SHA512)
-            avatar.save(MEDIA_DIR, username)
-
-            user.avatar = username + '.png'
             user.save()
 
             login(request, user)
@@ -44,12 +45,18 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    if not default_storage.exists(request.user.username + '.png'):
-        avatar = pagan.Avatar(request.user.username, pagan.SHA512)
-        avatar.save(MEDIA_DIR, request.user.username)
+
+    # Generate avatar base64
+    avatar = pagan.Avatar(request.user.username, pagan.SHA512)
+    buffered = BytesIO()
+    avatar.img.save(buffered, format='PNG')
+    avatar_base64 = base64.b64encode(buffered.getvalue()).decode('ascii')
+
     context = {
-        'missions': Mission.objects.all(),
+        'missions': Mission.objects.filter(start_time__lte=timezone.now(), end_time__gte=timezone.now()).exclude(completedmission__user=request.user),
+        'completed_missions': Mission.objects.filter(completedmission__user=request.user),
         'grade': request.user.grade,
+        'avatar_base64': avatar_base64
     }
     return render(request, 'spiritdashboard/dashboard.html', context=context)
 
