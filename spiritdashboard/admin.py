@@ -5,7 +5,7 @@ from .models import CompletedMission, Mission, MissionKey, User, Grade
 
 class SpiritUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-            ('Spirit Data', {'fields': ('grade','points','total_xp','avatar')}),
+            ('Spirit Data', {'fields': ('grade','points','total_xp')}),
     )
 
 
