@@ -96,6 +96,10 @@ def claim_key(request, key=None):
             request.user.save()
             request.user.grade.save()
 
+            # Increases times_used of key
+            mission_key.times_used += 1
+            mission_key.save()
+
             return render(request, 'spiritdashboard/completed.html', context={'mission': mission})
     
     return HttpResponseBadRequest(reason='Invalid key, or you have already completed the mission.')
