@@ -107,6 +107,9 @@ class CompletedMission(models.Model):
     mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.mission.title + ' by ' + self.user.username
+
 
 class MissionKey(models.Model):
     mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
@@ -115,5 +118,5 @@ class MissionKey(models.Model):
     one_use = models.BooleanField(default=False)
     times_used = models.IntegerField(default=0)
 
-    def __str___(self):
-        return self.mission.title
+    def __str__(self):
+        return self.mission.title + ': ' + self.key
