@@ -53,7 +53,7 @@ def dashboard(request):
     avatar_base64 = base64.b64encode(buffered.getvalue()).decode('ascii')
 
     context = {
-        'missions': Mission.objects.filter(end_time__gte=timezone.now()).exclude(completedmission__user=request.user),
+        'missions': Mission.objects.filter(end_time__gte=timezone.now()).exclude(completedmission__user=request.user).order_by('start_time'),
         'completed_missions': Mission.objects.filter(completedmission__user=request.user),
         'grade': request.user.grade,
         'avatar_base64': avatar_base64
